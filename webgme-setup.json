@@ -19,11 +19,21 @@
       "UMLStateMachineDecorator": {
         "src": "src/decorators/UMLStateMachineDecorator"
       }
+    },
+    "visualizers": {
+      "FSMSimulator": {
+        "src": "panels/FSMSimulator/FSMSimulatorPanel",
+        "title": "FSMSimulator",
+        "panel": "src\\visualizers\\panels\\FSMSimulator",
+        "secondary": false,
+        "widget": "src\\visualizers\\widgets\\FSMSimulator"
+      }
     }
   },
   "dependencies": {
     "plugins": {},
     "seeds": {},
-    "decorators": {}
+    "decorators": {},
+    "visualizers": {}
   }
 }

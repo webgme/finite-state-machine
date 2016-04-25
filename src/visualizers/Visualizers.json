@@ -1,0 +1,8 @@
+[
+  {
+    "id": "FSMSimulator",
+    "title": "FSMSimulator",
+    "panel": "panels/FSMSimulator/FSMSimulatorPanel",
+    "DEBUG_ONLY": false
+  }
+]
