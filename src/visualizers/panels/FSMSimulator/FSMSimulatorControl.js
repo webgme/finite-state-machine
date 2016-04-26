@@ -6,9 +6,11 @@
 
 define(['js/Constants',
     'js/Utils/GMEConcepts',
+    'blob/BlobClient',
     'js/NodePropertyNames'
 ], function (CONSTANTS,
              GMEConcepts,
+             BlobClient,
              nodePropertyNames) {
 
     'use strict';
@@ -20,6 +22,7 @@ define(['js/Constants',
         this._logger = options.logger.fork('Control');
 
         this._client = options.client;
+        this._blobClient = new BlobClient({logger: this._logger.fork('BC')});
 
         // Initialize core collections and variables
         this._widget = options.widget;
@@ -60,7 +63,6 @@ define(['js/Constants',
         if (self._currentNodeId || self._currentNodeId === CONSTANTS.PROJECT_ROOT_ID) {
             // Put new node's info into territory rules
             self._selfPatterns = {};
-            self._selfPatterns[nodeId] = {children: 0};  // Territory "rule"
 
             self._widget.setTitle(desc.name.toUpperCase());
 
@@ -73,12 +75,10 @@ define(['js/Constants',
             self._currentNodeParentId = desc.parentId;
 
             self._territoryId = self._client.addUI(self, function (events) {
-                self._eventCallback(events);
+                self.whenLoaded(events);
             });
 
             // Update the territory
-            self._client.updateTerritory(self._territoryId, self._selfPatterns);
-
             self._selfPatterns[nodeId] = {children: 1};
             self._client.updateTerritory(self._territoryId, self._selfPatterns);
         }
@@ -91,63 +91,53 @@ define(['js/Constants',
 
         if (nodeObj) {
             objDescriptor = {
-                'id': undefined,
-                'name': undefined,
-                'childrenIds': undefined,
-                'parentId': undefined,
-                'isConnection': false
+                id: null,
+                name: null,
+                isConnection: false,
+                position: {
+                    x: 0,
+                    y: 0
+                },
+                connects: {
+                    src: null,
+                    dst: null
+                }
             };
 
             objDescriptor.id = nodeObj.getId();
             objDescriptor.name = nodeObj.getAttribute(nodePropertyNames.Attributes.name);
-            objDescriptor.childrenIds = nodeObj.getChildrenIds();
-            objDescriptor.childrenNum = objDescriptor.childrenIds.length;
-            objDescriptor.parentId = nodeObj.getParentId();
             objDescriptor.isConnection = GMEConcepts.isConnection(nodeId);  // GMEConcepts can be helpful
+            objDescriptor.position = nodeObj.getRegistry('pos');
+            if (objDescriptor.isConnection) {
+                objDescriptor.connects.src = nodeObj.getPointer('src').to;
+                objDescriptor.connects.dst = nodeObj.getPointer('dst').to;
+            }
         }
 
         return objDescriptor;
     };
 
-    /* * * * * * * * Node Event Handling * * * * * * * */
-    FSMSimulatorControl.prototype._eventCallback = function (events) {
-        var i = events ? events.length : 0,
-            event;
+    FSMSimulatorControl.prototype.whenLoaded = function (events) {
+        var i,
+            graphData = {
+                simulatorUrl: null,
+                nodes: {}
+            },
+            nodeObj;
 
-        this._logger.debug('_eventCallback \'' + i + '\' items');
-
-        while (i--) {
-            event = events[i];
-            switch (event.etype) {
-                case CONSTANTS.TERRITORY_EVENT_LOAD:
-                    this._onLoad(event.eid);
-                    break;
-                case CONSTANTS.TERRITORY_EVENT_UPDATE:
-                    this._onUpdate(event.eid);
-                    break;
-                case CONSTANTS.TERRITORY_EVENT_UNLOAD:
-                    this._onUnload(event.eid);
-                    break;
-                default:
-                    break;
+        for (i = 0; i < events.length; i += 1) {
+            if (events[i].etype === 'load') {
+                nodeObj = this._client.getNode(events[i].eid);
+                if (events[i].eid === this._currentNodeId) {
+                    graphData.simulatorUrl = this._blobClient.getViewURL(nodeObj.getAttribute('simulator'),
+                        'index.html');
+                } else {
+                    graphData.nodes[events[i].eid] = this._getObjectDescriptor(events[i].eid);
+                }
             }
         }
 
-        this._logger.debug('_eventCallback \'' + events.length + '\' items - DONE');
-    };
-
-    FSMSimulatorControl.prototype._onLoad = function (gmeId) {
-        var description = this._getObjectDescriptor(gmeId);
-        this._widget.addNode(description);
-    };
-
-    FSMSimulatorControl.prototype._onUpdate = function (gmeId) {
-        var description = this._getObjectDescriptor(gmeId);
-        this._widget.updateNode(description);
-    };
-
-    FSMSimulatorControl.prototype._onUnload = function (gmeId) {
-        this._widget.removeNode(gmeId);
+        this._widget.buildSimulator(graphData);
     };
 
     FSMSimulatorControl.prototype._stateActiveObjectChanged = function (model, activeObjectId) {

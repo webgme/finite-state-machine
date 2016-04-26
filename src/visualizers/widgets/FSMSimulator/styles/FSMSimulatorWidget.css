@@ -1,10 +1,14 @@
 /**
- * This file is for any css that you may want for this visualizer.
- *
- * Ideally, you would use the scss file also provided in this directory 
- * and then generate this file automatically from that. However, you can 
- * simply write css if you prefer
+ * This file is for any scss that you may want for this visualizer.
  */
-
 .f-s-m-simulator {
   outline: none; }
+  .f-s-m-simulator .link {
+    stroke: #000;
+    stroke-width: 1.5px; }
+  .f-s-m-simulator .node {
+    fill: #000;
+    stroke: #fff;
+    stroke-width: 1.5px; }
+
+/*# sourceMappingURL=FSMSimulatorWidget.css.map */
