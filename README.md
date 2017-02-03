@@ -1,7 +1,7 @@
-# finite-state-machine
+# Finite State Machine
 [Finite state machine](https://en.wikipedia.org/wiki/Finite-state_machine) domain with seed, decorator and plugin for generating executable command line simulators in different languages.
 
-# Import Components from Other Repositories
+## Import Components from Other Repositories
 Using the [webgme-cli](https://github.com/webgme/webgme-cli) the following pieces can be imported (execute from root of repository).
 
 #### Seed
@@ -20,10 +20,11 @@ Generates code from a state-machine. The seed registers the plugin for state-mac
 webgme import plugin FiniteStateMachine webgme-finite-state-machine
 ```
 
-# Running from this repository
+## Running from this repository
 Make sure the [dependencies for webgme](https://github.com/webgme/webgme/blob/master/README.md#dependencies) are installed.
-1. Clone this repository
-2. `npm install` - installs all dependencies
-3. `npm install webgme` - installs webgme (it's a [peer-dependency](https://nodejs.org/en/blog/npm/peer-dependencies/)).
-4. `npm start`
-5. Visit localhost:8888 from a browser.
+ 1. Clone this repository
+ 2. `npm install` - installs all dependencies
+ 3. `npm install webgme` - installs webgme (it's a [peer-dependency](https://nodejs.org/en/blog/npm/peer-dependencies/)).
+ 4. Launch a local mongodb instance (if not local edit the webgme config).
+ 5. `npm start`
+ 6. Visit localhost:8888 from a browser.

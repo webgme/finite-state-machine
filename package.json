@@ -28,7 +28,8 @@
     "webgme",
     "UMLFiniteStateMachine",
     "FiniteStateMachine",
-    "FSM"
+    "FSM",
+    "webgme-domain"
   ],
   "license": "MIT"
 }
