@@ -1,5 +1,5 @@
 {
-  "name": "finite-state-machine",
+  "name": "webgme-finite-state-machine",
   "scripts": {
     "start": "node app.js",
     "test": "node ./node_modules/mocha/bin/mocha --recursive test"
@@ -7,7 +7,7 @@
   "version": "1.0.0",
   "repository": {
     "type": "git",
-    "url": "http://github.com/webgme/webgme-fsm.git"
+    "url": "https://github.com/webgme/finite-state-machine.git"
   },
   "dependencies": {
   },
