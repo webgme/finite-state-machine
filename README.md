@@ -1,6 +1,8 @@
 # Finite State Machine
 [Finite state machine](https://en.wikipedia.org/wiki/Finite-state_machine) domain with seed, decorator and plugin for generating executable command line simulators in different languages.
 
+![Finite-state-machine](img/example.png "Metamodel and a simple elevator")
+
 ## Import Components from Other Repositories
 Using the [webgme-cli](https://github.com/webgme/webgme-cli) the following pieces can be imported (execute from root of repository).
 
