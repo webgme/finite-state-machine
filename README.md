@@ -38,7 +38,7 @@ webgme import plugin FiniteStateMachine webgme-finite-state-machine
  npm prune
  npm install
  npm version 1.1.0 -m "Release %s"
- npm push origin master
+ git push origin master
  git checkout v1.1.0
  git push origin v1.1.0
  npm publish ./
