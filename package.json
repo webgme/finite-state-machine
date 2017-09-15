@@ -8,7 +8,7 @@
     "start": "node app.js",
     "test": "node ./node_modules/mocha/bin/mocha --recursive test"
   },
-  "version": "1.1.1",
+  "version": "1.1.2",
   "repository": {
     "type": "git",
     "url": "https://github.com/webgme/finite-state-machine.git"
