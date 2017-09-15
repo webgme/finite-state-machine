@@ -38,33 +38,41 @@ define(['underscore'], function (_underscore) {
         return dictionary;
     }
 
+    function safeTypeCheck(id, metaId) {
+        if (typeof metaId === 'string') {
+            return client.isTypeOf(id, metaId);
+        } else {
+            return false;
+        }
+    }
+
     //META ASPECT TYPE CHECKING
     var _isEnd = function (objID) {
-        return client.isTypeOf(objID, _getMetaTypes()[META_TYPES.End]);
+        return safeTypeCheck(objID, _getMetaTypes()[META_TYPES.End]);
     };
     var _isFCO = function (objID) {
-        return client.isTypeOf(objID, _getMetaTypes()[META_TYPES.FCO]);
+        return safeTypeCheck(objID, _getMetaTypes()[META_TYPES.FCO]);
     };
     var _isInitial = function (objID) {
-        return client.isTypeOf(objID, _getMetaTypes()[META_TYPES.Initial]);
+        return safeTypeCheck(objID, _getMetaTypes()[META_TYPES.Initial]);
     };
     var _isLanguage = function (objID) {
-        return client.isTypeOf(objID, _getMetaTypes()[META_TYPES.Language]);
+        return safeTypeCheck(objID, _getMetaTypes()[META_TYPES.Language]);
     };
     var _isModels = function (objID) {
-        return client.isTypeOf(objID, _getMetaTypes()[META_TYPES.Models]);
+        return safeTypeCheck(objID, _getMetaTypes()[META_TYPES.Models]);
     };
     var _isState = function (objID) {
-        return client.isTypeOf(objID, _getMetaTypes()[META_TYPES.State]);
+        return safeTypeCheck(objID, _getMetaTypes()[META_TYPES.State]);
     };
     var _isStateBase = function (objID) {
-        return client.isTypeOf(objID, _getMetaTypes()[META_TYPES.StateBase]);
+        return safeTypeCheck(objID, _getMetaTypes()[META_TYPES.StateBase]);
     };
     var _isTransition = function (objID) {
-        return client.isTypeOf(objID, _getMetaTypes()[META_TYPES.Transition]);
+        return safeTypeCheck(objID, _getMetaTypes()[META_TYPES.Transition]);
     };
     var _isUMLStateDiagram = function (objID) {
-        return client.isTypeOf(objID, _getMetaTypes()[META_TYPES.UMLStateDiagram]);
+        return safeTypeCheck(objID, _getMetaTypes()[META_TYPES.UMLStateDiagram]);
     };
 
     return {
